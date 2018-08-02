@@ -88,33 +88,41 @@ var connection = mysql.createConnection({
             connection.end();
             break;
             case "Add New Product":
-            inquirer.prompt([
-                {
-                    name: "productName",
-                    type: "input",
-                    message: "Enter the name of the product:"
-                },
-                {
-                    name: "productDept",
-                    type: "input",
-                    message: "Enter the name of the product department:"
-                },
-                {
-                    name: "productPrice",
-                    type: "input",
-                    message: "Enter the price of the product:"
-                },
-                {
-                    name: "productStock",
-                    type: "input",
-                    message: "Enter number of new products:"
+            var productDepts = [];
+            connection.query("SELECT DISTINCT DEPARTMENT_NAME FROM PRODUCTS", function(err,res3){
+                for(var i = 0; i < res3.length; ++i){
+                    productDepts.push(res3[i].DEPARTMENT_NAME);
                 }
-            ]).then(function(res){
-                connection.query("INSERT INTO PRODUCTS(ITEM_ID, PRODUCT_NAME, DEPARTMENT_NAME, PRICE, STOCK_QUANTITY) VALUES(?,?,?,?)",[res.productName, res.productDept, res.productPrice, res.productStock], function(err, res2){
-                    console.log("New product added to inventory");
-                })
-            });
-            connection.end();
+                inquirer.prompt([
+                    {
+                        name: "productName",
+                        type: "input",
+                        message: "Enter the name of the product:"
+                    },
+                    {
+                        name: "productDept",
+                        type: "list",
+                        message: "Choose the name of the product department:",
+                        choices: productDepts
+                    },
+                    {
+                        name: "productPrice",
+                        type: "input",
+                        message: "Enter the price of the product:"
+                    },
+                    {
+                        name: "productStock",
+                        type: "input",
+                        message: "Enter number of new products:"
+                    }
+                ]).then(function(res4){
+                    var query = connection.query("INSERT INTO PRODUCTS(PRODUCT_NAME, DEPARTMENT_NAME, PRICE, STOCK_QUANTITY) VALUES(?,?,?,?)",[res4.productName, res4.productDept, parseFloat(res4.productPrice), parseInt(res4.productStock)], function(err, res2){
+                        if(err) return console.log(err);
+                        console.log("New product added to inventory");
+                        connection.end();
+                    })
+                });
+             });
             break;
         }
     });
