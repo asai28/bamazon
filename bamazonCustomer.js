@@ -53,7 +53,6 @@ function makeOrder(){
                 connection.end();
             }
             else{
-                console.log("Else statement");
                 var stock = res2[0].stock_quantity;
                 if(stock >= parseInt(res.num_products)){
                     connection.query("UPDATE PRODUCTS SET STOCK_QUANTITY = STOCK_QUANTITY - ? WHERE ITEM_ID = ?", [parseInt(res.num_products),parseInt(res.id)], function(err,res3){
