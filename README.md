@@ -41,6 +41,8 @@ A bamazon supervisor can information regarding different product departments and
  
  Table before and after:
 
+ ![Department Table](/snapshots/2.PNG)
+
  ![Department Table](/snapshots/1.PNG)
 
- ![Department Table](/snapshots/2.PNG)
+Some other snapshots of tables are available in the snapshots folder.
