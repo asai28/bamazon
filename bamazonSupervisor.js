@@ -28,7 +28,7 @@ connection.connect(function(err) {
       }
       ]).then(function(res){
           if(res.option === "View Products Sales by Department"){
-            connection.query("SELECT departments.*, SALES.DEPARTMENT_SALES FROM DEPARTMENTS INNER JOIN SALES ON departments.DEPARTMENT_NAME = SALES.DEPARTMENT_NAME ORDER BY DEPARTMENT_ID;", function(err, res) {
+            connection.query("SELECT DEPARTMENTS.DEPARTMENT_ID, DEPARTMENTS.DEPARTMENT_NAME, DEPARTMENTS.OVERHEAD_COSTS, (PRODUCTS.PRODUCT_SALES) AS DEPARTMENT_SALES, (PRODUCTS.PRODUCT_SALES) - DEPARTMENTS.OVERHEAD_COSTS AS TOTAL_PROFIT FROM DEPARTMENTS, PRODUCTS WHERE DEPARTMENTS.DEPARTMENT_NAME = PRODUCTS.DEPARTMENT_NAME GROUP BY PRODUCTS.DEPARTMENT_NAME ORDER BY DEPARTMENT_ID", function(err, res) {
               if (err) throw err;
               // Log all results of the SELECT statement
               console.table(res);
@@ -47,16 +47,13 @@ connection.connect(function(err) {
                   type: "input",
                   message: "Enter the overhead costs of maintaining the new department:"
               }
-          ]).then(function(res){
-              connection.query("INSERT INTO departments(DEPARTMENT_NAME, OVERHEAD_COSTS) VALUES(?,?)",[res.deptName, res.deptOverhead], function(err, res2){
-                  console.log("New department added");
+          ]).then(function(res2){
+              var query = connection.query("INSERT INTO DEPARTMENTS(DEPARTMENT_NAME, OVERHEAD_COSTS) values(?, ?)", [res2.deptName, parseFloat(res2.deptOverhead)], function(res3){
+                  console.log("New Department added!");
+                  connection.end();
               });
-              connection.query("INSERT INTO sales(DEPARTMENT_NAME) VALUES(?)",[res.deptName], function(err, res2){
-                //console.log("New department added");
-            });
+              console.log(query.sql);
           });
-          connection.end();
-          
           }
       });
 });

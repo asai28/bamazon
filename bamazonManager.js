@@ -37,8 +37,8 @@ var connection = mysql.createConnection({
                 if (err) throw err;
                 // Log all results of the SELECT statement
                 console.table(res);
+                connection.end();
               });
-              connection.end();
               break;
     
             case "View Low Inventory":
@@ -49,8 +49,8 @@ var connection = mysql.createConnection({
                 if (err) throw err;
                 // Log all results of the SELECT statement
                 console.table(res);
+                connection.end();
               });
-              connection.end();
               break;
     
             case "Add to Inventory":
@@ -82,10 +82,10 @@ var connection = mysql.createConnection({
                 ]).then(function(res2){
                     connection.query("UPDATE PRODUCTS SET STOCK_QUANTITY = STOCK_QUANTITY + ? WHERE PRODUCT_NAME = ?", [parseInt(res2.addStock), res2.addProduct], function(err, res3){
                         console.log("New items added!");
+                        connection.end();
                     })
                 });
               });
-            connection.end();
             break;
             case "Add New Product":
             var productDepts = [];
@@ -123,7 +123,7 @@ var connection = mysql.createConnection({
                     })
                 });
              });
-            break;
+            
         }
     });
   });
