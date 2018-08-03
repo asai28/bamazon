@@ -2,7 +2,7 @@
 
 There are three applications made:
 
-* BAMAZON Check out the GIF!:
+* BAMAZON Customer app:
 
 This customer app displays all the available products present in the inventory. A customer could buy a product from here.
 
