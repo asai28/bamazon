@@ -38,7 +38,8 @@ A bamazon supervisor can information regarding different product departments and
  2. Add New Department
 
  [Check out the GIF!](/snapshots/9.gif)
+ 
  Table before and after:
 
- [Check out the GIF!](/snapshots/1.png)
- [Check out the GIF!](/snapshots/2.png)
+ [Department Table](/snapshots/1.PNG)
+ [Department Table](/snapshots/2.PNG)
